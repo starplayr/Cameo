@@ -57,6 +57,6 @@ curl -d '{"channelType":"number"}' -H "Content-type: application/json" -X POST h
 mplayer http://localhost:1111/playlist/2.m3u8 -cache 32
 ```
 
-Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes. 32k Cache is recommended with mplayer.
+Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes.
 
 This API is designed to work with StarPlayrX. It will be revised for more common usage along with a Web User Interface.
