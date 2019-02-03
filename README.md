@@ -2,7 +2,7 @@
 
 An HTTP Live Streaming Engine for Sirius XM Radio. Other radio and video services will be added down the road. Cameo works directly with StarPlayrX, our flag ship streaming internet radio player, but its generic enough to run in any player that support HLS over HTTP.
 
-Cameo works directly with PerfectHTTPServer. So far its the best server we have found. Perfect is fast, stable and powerful.
+Cameo works directly with PerfectHTTPServer. So far its the best server we have found. Perfect is fast, stable and powerful. If you prefer Kitura, Vapor or another framework, you can adapt the Routing and Server area of the app (main.swift and Routing.swift). We may make our adaptations down the road and server them up as separate dependencies or forks.
 
 Cameo, formerly Camouflage, is an HTML Live Streaming Engine currently designed to work with Sirius XM Radio. It fully supports the Swift Package Manager 4.2. We've updated and it currently working with Perfect's HTTP Live Server which we are having an awesome time with it. If you are using Kitura or Vapor, just only thing you will need to change is the Server and Routing layers (2 files). Cameo, it built using plain vanilla flavored Swift 4.2.1
 
