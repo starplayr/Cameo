@@ -11,6 +11,13 @@ Camo uses Perfect's HTTP Server for its backend. The Camo framework is very ligh
 API Updated to V2
 More Convience methods will be added soon.
 
+## Perfect Server
+```swift
+let server = HTTPServer()
+server.serverAddress = "127.0.0.1"
+server.serverPort = 1111
+```
+
 ## Command line instructions
 ```swift
 cd Camo*
@@ -31,7 +38,7 @@ curl -d '{"channelid":"siriushits1"}' -H "Content-type: application/json" -X POS
 
 ## Channels (Pulls channels by number)
 ```swift
-curl -d '{"channelType":"number"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v1/channels
+curl -d '{"channelType":"number"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/channels
 ```
 
 ## Playlist by channel number
