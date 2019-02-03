@@ -10,12 +10,14 @@ Cameo currently runs on macOS. We have not tested in on other platforms yet, but
 
 ## To Do List (subject to change):
 ```swift
+Mutli user support
 Artist Song data of channel/song playing
 PDT for all channels
 StarPlayrX for macOS
 StarPlayrX for iOS
 Simple channel list in the CLI
 Web UI
+Recording or offline playback
 Voice recongition
 Voice feedback
 ```
