@@ -43,7 +43,7 @@ curl -d '{"channelType":"number"}' -H "Content-type: application/json" -X POST h
 
 ## Playlist by channel number and play through mplayer
 ```swift
-mplayer ttp://localhost:1111/playlist/2.m3u8 -cache 32
+mplayer http://localhost:1111/playlist/2.m3u8 -cache 32
 ```
 
 Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes. 32k Cache is recommended with mplayer.
