@@ -8,8 +8,6 @@ Cameo, formerly Camouflage, is an HTML Live Streaming Engine currently designed 
 
 Cameo currently runs on macOS. We have not tested in on other platforms yet, but we will be bringing it to Linux, iOS, Android, tvOS, watchOS, Windows and Raspberry Pi.
 
-Camo uses Perfect's HTTP Server for its backend. The Camo framework is very lightweight. It compiles to 1.1MB and uses only 24MB RAM while streaming, it uses Zero CPU and has Zero Energy impact. Zero Disk, and Low Network while streaming.
-
 API Updated to V2
 More Convience methods will be added soon.
 
