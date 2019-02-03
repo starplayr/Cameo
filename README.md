@@ -8,6 +8,16 @@ Cameo, formerly Camouflage, is an HTML Live Streaming Engine currently designed 
 
 Cameo currently runs on macOS. We have not tested in on other platforms yet, but we will be bringing it to Linux, iOS, Android, tvOS, watchOS, Windows and Raspberry Pi.
 
+ToDo:
+```swift
+Artist Song data of channel/song playing
+PDT for all channels
+Simple channel list in the CLI
+Web UI
+Voice recongition
+Voice feedback
+```
+
 API Updated to V2
 More Convience methods will be added soon.
 
