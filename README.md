@@ -17,7 +17,7 @@ StarPlayrX for macOS
 StarPlayrX for iOS
 Simple channel list in the CLI
 Web UI
-Recording or offline playback
+Offline playback
 Voice recongition
 Voice feedback
 ```
