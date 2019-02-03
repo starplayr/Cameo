@@ -10,7 +10,7 @@ import Foundation
 
 internal func Session(channelId: String) -> String {
     
-    let endpoint = http + root + "/resume?channelId=" + channelId + "&contentType=live"
+    let endpoint = Global.variable.http + Global.variable.root + "/resume?channelId=" + channelId + "&contentType=live"
     let request =  ["moduleList": ["modules": [["moduleRequest": ["resultTemplate": "web", "deviceInfo": ["osVersion": "Mac", "platform": "Web", "clientDeviceType": "web", "sxmAppVersion": "3.1802.10011.0", "browser": "Safari", "browserVersion": "11.0.3", "appRegion": "US", "deviceModel": "K2WebClient", "player": "html5", "clientDeviceId": "null"]]]]]] as Dictionary
     
     //MARK - for Sync
@@ -48,7 +48,7 @@ internal func Session(channelId: String) -> String {
                         let t = cookie.value as String
                         let startIndex = t.index(t.startIndex, offsetBy: 3)
                         let endIndex = t.index(t.startIndex, offsetBy: 45)
-                        gUser[gLoggedinUser]?.token = String(t[startIndex...endIndex])
+                        Global.variable.user[Global.variable.userid]?.token = String(t[startIndex...endIndex])
                         break
                     }
                 }
@@ -65,9 +65,9 @@ internal func Session(channelId: String) -> String {
                 let chunk = c.value( forKeyPath: "chunks.chunks") as! NSArray
                 let d = chunk[0] as! NSDictionary
                 
-                gUser[gLoggedinUser]?.key = d.value( forKeyPath: "key") as! String
-                gUser[gLoggedinUser]?.keyurl = d.value( forKeyPath: "keyUrl") as! String
-                gUser[gLoggedinUser]?.consumer  = x.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as! String
+                Global.variable.user[Global.variable.userid]?.key = d.value( forKeyPath: "key") as! String
+                Global.variable.user[Global.variable.userid]?.keyurl = d.value( forKeyPath: "keyUrl") as! String
+                Global.variable.user[Global.variable.userid]?.consumer  = x.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as! String
             } catch {
                 //fail on any errors
             }
@@ -84,8 +84,8 @@ internal func Session(channelId: String) -> String {
     
     urlReq = nil
     
-    if gUser[gLoggedinUser]?.token != nil {
-        return (gUser[gLoggedinUser]?.token)!
+    if Global.variable.user[Global.variable.userid]?.token != nil {
+        return (Global.variable.user[Global.variable.userid]?.token)!
     } else {
         return ""
     }

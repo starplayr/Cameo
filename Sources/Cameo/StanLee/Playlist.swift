@@ -17,12 +17,14 @@ func Playlist(channelId: String ) -> String {
     let ext = ".m3u8"
     
     let tail = channelId + underscore + bitrate + underscore + size + underscore + version + ext
-    var source : String? = gUser[gLoggedinUser]!.keyurl
+    var source : String? = Global.variable.user[Global.variable.userid]!.keyurl
+    
+    let usePrime = true
     
     if usePrime {
-        source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: hls_sources["Live_Primary_HLS"]!)
+        source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: Global.variable.hls_sources["Live_Primary_HLS"]!)
     } else {
-        source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: hls_sources["Live_Secondary_HLS"]!)
+        source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: Global.variable.hls_sources["Live_Secondary_HLS"]!)
     }
     
     source = source!.replacingOccurrences(of: "32k", with: bitrate)
@@ -33,7 +35,7 @@ func Playlist(channelId: String ) -> String {
     ///we may start including the Variant call as part of the config in the future
     source = source!.replacingOccurrences(of: "key/1", with: tail)
     
-    source = source! + gUser[gLoggedinUser]!.consumer + "&token=" + gUser[gLoggedinUser]!.token
+    source = source! + Global.variable.user[Global.variable.userid]!.consumer + "&token=" + Global.variable.user[Global.variable.userid]!.token
     var playlist : String? = TextSync(endpoint: source!, method: "variant")
     
     if playlist != nil {

@@ -1,9 +1,12 @@
 import Foundation
 
 func Config()  {
-   let endppoint = http + root +  "/get/configuration?result-template=html5&app-region=US"
-   let config = GetSync(endpoint: endppoint, method: "config")
+   let endpoint = Global.variable.http + Global.variable.root +  "/get/configuration?result-template=html5&app-region=US"
+    
+    print(endpoint)
 
+   let config = GetSync(endpoint: endpoint, method: "config")
+    
     /* get patterns and encrpytion keys */
     let s = config.value( forKeyPath: "ModuleListResponse.moduleList.modules" )!
     let p = s as? NSArray
@@ -26,7 +29,7 @@ func Config()  {
                 if b["name"] != nil && b["url"] as! String != "TBD" {
                     let streamName = b["name"] as! String
                     let streamUrl = b["url"]  as! String
-                    hls_sources[streamName] = streamUrl
+                    Global.variable.hls_sources[streamName] = streamUrl
                 }
             }
         }

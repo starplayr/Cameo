@@ -142,11 +142,11 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let channel = String(channelArray[0])
     
     if channel.count > 0 {
-        let ch = gChannels[channel] as? NSDictionary
+        let ch = Global.variable.channels[channel] as? NSDictionary
         
         if ch != nil {
             let channelid = ch!["channelId"] as? String
-            gUser[gLoggedinUser]!.channel = channelid!
+            Global.variable.user[Global.variable.userid]!.channel = channelid!
             
             _ = Session(channelId: channelid!)
             
@@ -178,7 +178,7 @@ internal func audioRoute(request: HTTPRequest, _ response: HTTPResponse) {
     
     if audio != nil {
         let filename = String(audio!.dropFirst())
-        let audio = Audio(data: filename, channelId: gUser[gLoggedinUser]!.channel) as NSData
+        let audio = Audio(data: filename, channelId: Global.variable.user[Global.variable.userid]!.channel) as NSData
         let bytes = [UInt8](audio as Data)
         response.setBody(bytes: bytes)
             .setHeader(.contentType, value:"audio/aac")

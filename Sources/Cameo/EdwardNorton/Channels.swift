@@ -6,7 +6,7 @@ internal func Channels(channelType: String) -> ChannelsTuple {
     var success : Bool? = false
     var message : String? = "Something's not right."
     
-    let endpoint = http + root + "/get"
+    let endpoint = Global.variable.http + Global.variable.root + "/get"
     let method = "channels"
     let request =  ["moduleList": ["modules": [["moduleArea": "Discovery", "moduleType": "ChannelListing", "moduleRequest": ["consumeRequests": [], "resultTemplate": "responsive", "alerts": [], "profileInfos": []]]]]] as Dictionary
     
@@ -67,9 +67,9 @@ internal func Channels(channelType: String) -> ChannelsTuple {
                 }
             }
             
-            gChannels = ChannelDict!
+            Global.variable.channels = ChannelDict!
             
-            if gChannels.count > 1 {
+            if Global.variable.channels.count > 1 {
                 success = true
                 message = "Read the channels in."
                 return (success: success!, message: message!, data: ChannelDict!)

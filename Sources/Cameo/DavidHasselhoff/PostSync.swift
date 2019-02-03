@@ -28,7 +28,7 @@ internal func PostSync(request: Dictionary<String, Any>, endpoint: String, metho
         urlReq!.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.2 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
         let task = URLSession.shared.dataTask(with: urlReq! ) { ( rData, resp, error ) in
             
-            if (resp as! HTTPURLResponse).statusCode == 200 {
+            if resp != nil && (resp as? HTTPURLResponse)!.statusCode == 200 {
                 
                 do { let result =
                     try JSONSerialization.jsonObject(with: rData!, options: JSONSerialization.ReadingOptions.mutableContainers) as! [String : Any]

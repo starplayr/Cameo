@@ -14,7 +14,7 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
     var success         = false
     var message         = "Username or password is incorrect."
     
-    let endpoint = http + root +  "/modify/authentication"
+    let endpoint = Global.variable.http + Global.variable.root +  "/modify/authentication"
     let method = "login"
     let loginReq = ["moduleList": ["modules": [["moduleRequest": ["resultTemplate": "web", "deviceInfo": ["osVersion": "Mac", "platform": "Web", "sxmAppVersion": "3.1802.10011.0", "browser": "Safari", "browserVersion": "11.0.3", "appRegion": "US", "deviceModel": "K2WebClient", "clientDeviceId": "null", "player": "html5", "clientDeviceType": "web"], "standardAuth": ["username": user , "password": pass ]]]]]] as Dictionary
     
@@ -47,8 +47,8 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
             loggedinuser = x.value(forKeyPath: "moduleResponse.authenticationData.username") as! String
             logindata.loggedin = true
             
-            gLoggedinUser = loggedinuser
-            gUser[gLoggedinUser] = logindata
+            Global.variable.userid = loggedinuser
+            Global.variable.user[Global.variable.userid] = logindata
             
             //get the GupId Cookie
             let fields = result.response.allHeaderFields as? [String : String]
@@ -56,10 +56,10 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
             HTTPCookieStorage.shared.setCookies(cookies, for: result.response.url!, mainDocumentURL: nil)
             
             if fields?["GupId"] != nil {
-                gUser[gLoggedinUser]?.gupid = fields!["GupId"]!
+                Global.variable.user[Global.variable.userid]?.gupid = fields!["GupId"]!
             }
             
-            return (success: success, message: message, data: gUser[gLoggedinUser]!.gupid)
+            return (success: success, message: message, data: Global.variable.user[Global.variable.userid]!.gupid)
 
         }
     }
