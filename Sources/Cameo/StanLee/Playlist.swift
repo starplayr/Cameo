@@ -38,11 +38,6 @@ func Playlist(channelId: String ) -> String {
     
     if playlist != nil {
         
-
-        // let prefix = hls_sources["Live_Primary_HLS"]! + "/AAC_Data/" + channelId + "/HLS_" + channelId + "_256k_v3/"
-        //let suffix = gUser[gLoggedinUser]!.consumer  + "&token=" + gUser[gLoggedinUser]!.token
-        
-       // let endpoint = prefix + data + suffix
         playlist = playlist!.replacingOccurrences(of: "key/1", with: "http://localhost:1111/key/1")
         playlist = playlist!.replacingOccurrences(of: channelId, with: "/audio/" + channelId)
         
@@ -54,8 +49,3 @@ func Playlist(channelId: String ) -> String {
     return ""
 
 }
-
-
-
-//https://siriusxm-priprodlive.akamaized.net/AAC_Data/siriushits1/HLS_siriushits1_256k_v3/siriushits1_256k_1_020257686552_03523053_v3.aac?consumer=k2&gupId=D903EFA651C741B3356C26BE514AC017&token=1549123528_838c0fe1604f71b93d9ad6dc4b024584
-//https://siriusxm-priprodlive.akamaized.net/AAC_Data/siriushits1/HLS_siriushits1_256k_v3/siriushits1_256k_1_020258096152_03523095_v3.aac?token=1549125113_c9a2ac21178822a43fe65dd17c36261f&consumer=k2&gupId=D903EFA651C741B3356C26BE514AC017

@@ -38,9 +38,6 @@ private func routes() -> Routes {
     
 }
 
-
-
-
 do {
     server.addRoutes( routes() )
     try server.start()
