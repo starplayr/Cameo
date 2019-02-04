@@ -3,8 +3,6 @@ import Foundation
 func Config()  {
    let endpoint = Global.variable.http + Global.variable.root +  "/get/configuration?result-template=html5&app-region=US"
     
-    print(endpoint)
-
    let config = GetSync(endpoint: endpoint, method: "config")
     
     /* get patterns and encrpytion keys */

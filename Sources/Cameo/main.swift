@@ -5,8 +5,8 @@ import Foundation
 Config()
 
 let server = HTTPServer()
-server.serverAddress = "127.0.0.1"
-server.serverPort = 1111
+server.serverAddress = Global.variable.ipaddress
+server.serverPort = UInt16(Global.variable.port)
 
 
 

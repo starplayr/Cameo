@@ -9,10 +9,14 @@ import Foundation
 class Global {
     typealias User = Dictionary<String, (pass:String, channel: String, token: String, loggedin: Bool, guid: String, gupid: String, consumer: String, key: String, keyurl: String )>
     // These are the properties you can store in your singleton
+ 
     internal let http: String = "http://"
     internal let root: String = "player.siriusxm.com/rest/v2/experience/modules"
     internal var userid: String = ""
     internal var channels = Dictionary<String, Any>()
+    
+    internal let ipaddress: String = "192.168.1.74"
+    internal let port: Int = 1111
     
     internal var hls_sources = Dictionary<String, String>()
     internal var user: User = User()

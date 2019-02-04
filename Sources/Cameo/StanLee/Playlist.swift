@@ -39,8 +39,7 @@ func Playlist(channelId: String ) -> String {
     var playlist : String? = TextSync(endpoint: source!, method: "variant")
     
     if playlist != nil {
-        
-        playlist = playlist!.replacingOccurrences(of: "key/1", with: "http://localhost:1111/key/1")
+        playlist = playlist!.replacingOccurrences(of: "key/1", with: "http://" + Global.variable.ipaddress + ":" + String(Global.variable.port) + "/key/1")
         playlist = playlist!.replacingOccurrences(of: channelId, with: "/audio/" + channelId)
         
         source?.removeAll()
