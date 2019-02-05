@@ -19,9 +19,7 @@ func Playlist(channelid: String, userid: String ) -> String {
     let tail = channelid + underscore + bitrate + underscore + size + underscore + version + ext
     var source : String? = Global.variable.user[userid]!.keyurl
     
-    let usePrime = true
-    
-    if usePrime {
+    if Global.variable.usePrime {
         source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: Global.variable.hls_sources["Live_Primary_HLS"]!)
     } else {
         source = source!.replacingOccurrences(of: "%Live_Primary_HLS%", with: Global.variable.hls_sources["Live_Secondary_HLS"]!)
@@ -39,14 +37,18 @@ func Playlist(channelid: String, userid: String ) -> String {
     var playlist : String? = TextSync(endpoint: source!, method: "variant")
     
     if playlist != nil {
+        
+        //fix key path
         playlist = playlist!.replacingOccurrences(of: "key/1", with: "/key/1")
+        
+        //add audio and userid prefix (used for internal multi user or multi service setup)
         playlist = playlist!.replacingOccurrences(of: channelid, with: "/audio/" + userid + "/" + channelid)
         
-        source?.removeAll()
+        source = nil
         return playlist!
     }
     
-    source?.removeAll()
+    source = nil
     return ""
 
 }

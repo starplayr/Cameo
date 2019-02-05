@@ -8,8 +8,6 @@
 import Foundation
 
 public func Login(user: String, pass: String) -> (success: Bool, message: String, data: String) {
-    
-    typealias LoginData = (email:String, pass:String, channels:  Dictionary<String, Any>, channel: String, token: String, loggedin: Bool, guid: String, gupid: String, consumer: String, key: String, keyurl: String )
 
     var email : String? =  ""
     var success : Bool? = false
@@ -35,7 +33,7 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
 
         let code = cm.value(forKeyPath: "code")! as! Int
         let msg = cm.value(forKeyPath: "message")! as! String
-        var logindata : LoginData? = (email:"", pass:"", channels: [:], channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" ) as LoginData
+        var logindata : Global.LoginData? = (email:"", pass:"", channels: [:], channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" ) as     Global.LoginData
 
         if code == 101 || msg == "Bad username/password" {
             success = false

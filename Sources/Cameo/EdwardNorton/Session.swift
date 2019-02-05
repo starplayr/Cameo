@@ -84,8 +84,8 @@ internal func Session(channelid: String, userid: String) -> String {
     
     urlReq = nil
     
-    if Global.variable.user[Global.variable.userid]?.token != nil {
-        return (Global.variable.user[Global.variable.userid]?.token)!
+    if  Global.variable.user[userid]?.token != nil {
+        return  (Global.variable.user[userid]?.token)!
     } else {
         return ""
     }
