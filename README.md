@@ -10,7 +10,7 @@ Cameo currently runs on macOS. We have not tested in on other platforms yet, but
 
 ## API To Do List (subject to change):
 ```swift
-Multi user support
+x Multi user support. done
 Convenience methods
 Artist / Song data / PDT
 Channel List via CLI
@@ -40,23 +40,25 @@ swift run
 ## Step 1 Sirius XM Login (Account Required)
 ```swift
 curl -d '{"user":"emaill@addr.com", "pass":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/login
+
+returns data string which becomes the userid in Session,Channels, and Playlist calls.
+we will be adding a epoche number soon to this userid. It will be a tad long, but its management will all be handled through StarPlayrX or equvilant. We may add in the option to assign your own UserID at login to simplify the process. We chose not to use the user's email address for the userid for security purposes.  
 ```
 
-## Step 2 Session
+## Step 2 Session Ping
 ```swift
-curl -d '{"channelid":"siriushits1"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/session
+curl -d '{"channelid":"", "userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/session
 ```
 
 ## Channels (Pulls channels by number)
 ```swift
-curl -d '{"channelType":"number"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/channels
+curl -d '{"channelType":"number","userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/channels
 ```
 
 ## Playlist by channel number and play through mplayer
 ```swift
-mplayer http://localhost:1111/playlist/2.m3u8 -cache 32
+mplayer http://localhost:1111/playlist/{userid}/2.m3u8 -cache 32
 ```
 
-Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes.
-
-This API is designed to work with StarPlayrX. It will be revised for more common usage along with a Web User Interface.
+The userid was addded to support multi users from the backend. Cameo's goal is to support multiple Radio and Video platforms.
+Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes. This API is designed to work with StarPlayrX. It will be revised for more common usage along with a Web User Interface.
