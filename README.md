@@ -11,9 +11,9 @@ Cameo currently runs on macOS. We have not tested in on other platforms yet, but
 ## API To Do List (subject to change):
 ```swift
 x Multi user support. done
-Convenience methods
 Artist / Song data / PDT
 Channel List via CLI
+Convenience methods
 Web UI
 Offline content
 Voice support
