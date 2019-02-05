@@ -1,12 +1,10 @@
 # Cameo
 
-An HTTP Live Streaming Engine for Sirius XM Radio. Other radio and video services will be added down the road. Cameo works directly with StarPlayrX, our flag ship streaming internet radio player, but its generic enough to work with player that support HLS over HTTP.
-run
-Cameo works directly with PerfectHTTPServer. So far its the best server we have found. Perfect is fast, stable and powerful. If you prefer Kitura, Vapor or another framework, you can adapt the Routing and Server area of the app (main.swift and Routing.swift). We may make our own Kitura and Vapor adaptations down the road and serve them up as separate dependencies or forks.
+An HTTP Live Streaming Engine for Sirius XM Radio. Other radio and video services are planned. Cameo works directly with StarPlayrX, our flag ship streaming internet radio player currently under concurrent development.
 
-Cameo, formerly Camouflage, is an HTML Live Streaming Engine currently designed to work with Sirius XM Radio. It fully supports the Swift Package Manager 4.2. We've updated and it currently working with Perfect's HTTP Live Server which we are having an awesome time with it. If you are using Kitura or Vapor, just only thing you will need to change is the Server and Routing layers (2 files). Cameo, it built using plain vanilla flavored Swift 4.2.1
+Cameo works directly with PerfectHTTPServer. Perfect is fast, stable and powerful. If you prefer Kitura, Vapor or another framework, you can adapt the Routing and Server area of the app (main.swift and Routing.swift). We may make our own Kitura and Vapor adaptations down the road and serve them up as separate dependencies or forks.
 
-Cameo currently runs on macOS. We have not tested in on other platforms yet, but we will be bringing it to Linux, iOS, Android, tvOS, watchOS, Windows and Raspberry Pi.
+Cameo currently runs on macOS. We have not tested other platforms yet. The goal is Linux, iOS, Android, tvOS, watchOS, Windows and Raspberry Pi.
 
 ## API To Do List (subject to change):
 ```swift
@@ -24,9 +22,9 @@ More Convience methods will be added soon.
 
 ## Perfect Server
 ```swift
-let server = HTTPServer()
-server.serverAddress = "127.0.0.1"
-server.serverPort = 1111
+ipaddress and port is in Global.swift
+default to 127.0.0.1 for localhost
+use your computer's IP if you plan on testing external devices on your LAN like iOS.
 ```
 
 ## Command line instructions
