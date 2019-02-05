@@ -1,8 +1,8 @@
 # Cameo
 
-An HTTP Live Streaming Engine for Sirius XM Radio. Other radio and video services are planned. Cameo works directly with StarPlayrX, our flag ship streaming internet radio player currently under concurrent development.
+Is a lean HTTP Live Streaming engine and currently supports for streaming Sirius XM Radio. Other radio and video services are planned. Cameo works directly with StarPlayrX, our flag ship streaming internet radio player currently under concurrent development. Cameo works with AVKit, Quicktime, Mplayer, FFMPEG, VLC. So far it works best with AVKit / AVPlayer. We are looking for a good solution for playback on Linux. We are currently not happy with MPlayer playblack on macOS via HLS.
 
-Cameo works directly with PerfectHTTPServer. Perfect is fast, stable and powerful. If you prefer Kitura, Vapor or another framework, you can adapt the Routing and Server area of the app (main.swift and Routing.swift). We may make our own Kitura and Vapor adaptations down the road and serve them up as separate dependencies or forks.
+Cameo uses Perfect HTTP Server for its backend. Perfect is fast, stable and powerful. If you prefer Kitura, Vapor or another server side swift framework, you can adapt the Routing and Server area of the app (main.swift and Routing.swift). Cameo may turn into a generic library in the near future with the router and server under separate projects to support Vapor, Kitura and other frameworks. Cameo will remain plain vanilla Swift. It agile and can be adapted to anything that supports Swift.
 
 Cameo currently runs on macOS. We have not tested other platforms yet. The goal is Linux, iOS, Android, tvOS, watchOS, Windows and Raspberry Pi.
 
