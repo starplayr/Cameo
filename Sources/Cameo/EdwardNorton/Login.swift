@@ -7,12 +7,13 @@
 
 import Foundation
 
-
-
 public func Login(user: String, pass: String) -> (success: Bool, message: String, data: String) {
-    var loggedinuser    = ""
-    var success         = false
-    var message         = "Username or password is incorrect."
+    
+    typealias LoginData = (email:String, pass:String, channels:  Dictionary<String, Any>, channel: String, token: String, loggedin: Bool, guid: String, gupid: String, consumer: String, key: String, keyurl: String )
+
+    var email : String? =  ""
+    var success : Bool? = false
+    var message : String?  = "Username or password is incorrect."
     
     let endpoint = Global.variable.http + Global.variable.root +  "/modify/authentication"
     let method = "login"
@@ -26,6 +27,7 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
     }
     
     if result.success {
+        var userid : String? = ""
         let r = result.data as NSDictionary
         let d = r.value(forKeyPath: "ModuleListResponse.messages")!
         let a = d as? NSArray
@@ -33,7 +35,7 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
 
         let code = cm.value(forKeyPath: "code")! as! Int
         let msg = cm.value(forKeyPath: "message")! as! String
-        var logindata = (pass:"", channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" )
+        var logindata : LoginData? = (email:"", pass:"", channels: [:], channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" ) as LoginData
 
         if code == 101 || msg == "Bad username/password" {
             success = false
@@ -44,27 +46,34 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
             let s = r.value(forKeyPath: "ModuleListResponse.moduleList.modules")!
             let p = s as? NSArray
             let x = p?[0] as! NSDictionary
-            loggedinuser = x.value(forKeyPath: "moduleResponse.authenticationData.username") as! String
-            logindata.loggedin = true
-            
-            Global.variable.userid = loggedinuser
-            Global.variable.user[Global.variable.userid] = logindata
+            let y = x.value(forKeyPath: "moduleResponse.authenticationData.username") as! String
+            email = y
+            logindata!.loggedin = true
             
             //get the GupId Cookie
             let fields = result.response.allHeaderFields as? [String : String]
             let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: result.response.url!)
             HTTPCookieStorage.shared.setCookies(cookies, for: result.response.url!, mainDocumentURL: nil)
-            
+                
             if fields?["GupId"] != nil {
-                Global.variable.user[Global.variable.userid]?.gupid = fields!["GupId"]!
+                userid = fields?["GupId"]
+                Global.variable.user[userid!] = logindata
+                Global.variable.user[userid!]?.gupid = userid!
             }
             
-            return (success: success, message: message, data: Global.variable.user[Global.variable.userid]!.gupid)
+            if email != nil {
+                Global.variable.user[userid!]?.email = email!
+            }
+            
+            return (success: success!, message: message!, data: Global.variable.user[userid!]!.gupid)
 
         }
     }
     
-    return (success: success, message: message, data: "")
+    email = nil
+    success = nil
+    message = nil
+    return (success: false, message: "To err is human. We had a login failure.", data: "")
 
 }
 

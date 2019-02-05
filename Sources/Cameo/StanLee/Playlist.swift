@@ -8,7 +8,7 @@
 import Foundation
 
 //Cached verison of Playlist
-func Playlist(channelId: String ) -> String {
+func Playlist(channelid: String, userid: String ) -> String {
     
     let bitrate = "256k" //this may be an optin in the future
     let size = "small"
@@ -16,8 +16,8 @@ func Playlist(channelId: String ) -> String {
     let version = "v3"
     let ext = ".m3u8"
     
-    let tail = channelId + underscore + bitrate + underscore + size + underscore + version + ext
-    var source : String? = Global.variable.user[Global.variable.userid]!.keyurl
+    let tail = channelid + underscore + bitrate + underscore + size + underscore + version + ext
+    var source : String? = Global.variable.user[userid]!.keyurl
     
     let usePrime = true
     
@@ -35,12 +35,12 @@ func Playlist(channelId: String ) -> String {
     ///we may start including the Variant call as part of the config in the future
     source = source!.replacingOccurrences(of: "key/1", with: tail)
     
-    source = source! + Global.variable.user[Global.variable.userid]!.consumer + "&token=" + Global.variable.user[Global.variable.userid]!.token
+    source = source! + Global.variable.user[userid]!.consumer + "&token=" + Global.variable.user[userid]!.token
     var playlist : String? = TextSync(endpoint: source!, method: "variant")
     
     if playlist != nil {
-        playlist = playlist!.replacingOccurrences(of: "key/1", with: "http://" + Global.variable.ipaddress + ":" + String(Global.variable.port) + "/key/1")
-        playlist = playlist!.replacingOccurrences(of: channelId, with: "/audio/" + channelId)
+        playlist = playlist!.replacingOccurrences(of: "key/1", with: "/key/1")
+        playlist = playlist!.replacingOccurrences(of: channelid, with: "/audio/" + userid + "/" + channelid)
         
         source?.removeAll()
         return playlist!

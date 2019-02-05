@@ -7,13 +7,14 @@ import Foundation
 //URL: https://player.siriusxm.com/rest/v4/experience/modules/tune/now-playing-live?channelId=thepulse&hls_output_mode=none&marker_mode=all_separate_cue_points&ccRequestType=AUDIO_VIDEO&result-template=web&time=1548615098681
 
 class Global {
-    typealias User = Dictionary<String, (pass:String, channel: String, token: String, loggedin: Bool, guid: String, gupid: String, consumer: String, key: String, keyurl: String )>
+    internal typealias LoginData = (email:String, pass:String, channels:  Dictionary<String, Any>, channel: String, token: String, loggedin: Bool, guid: String, gupid: String, consumer: String, key: String, keyurl: String )
+    internal typealias User = Dictionary<String, LoginData>
     // These are the properties you can store in your singleton
  
     internal let http: String = "http://"
     internal let root: String = "player.siriusxm.com/rest/v2/experience/modules"
     internal var userid: String = ""
-    internal var channels = Dictionary<String, Any>()
+   // internal var channels = Dictionary<String, Any>()
     
     internal let ipaddress: String = "192.168.1.74"
     internal let port: Int = 1111

@@ -27,10 +27,10 @@ private func routes() -> Routes {
     routes.add(method: .post, uri:"/api/v2/channels",handler:channelsRoute)
     
     // /playlist/2.m3u8
-    routes.add(method: .get, uri:"/playlist/**",handler:playlistRoute)
+    routes.add(method: .get, uri:"/playlist/{userid}/**",handler:playlistRoute)
     
     // /audio/2.m3u8
-    routes.add(method: .get, uri:"/audio/**",handler:audioRoute)
+    routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
     
     // Check the console to see the logical structure of what was installed.
     print("\(routes.navigator.description)")

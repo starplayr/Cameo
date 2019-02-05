@@ -62,16 +62,17 @@ internal func sessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
         do {
             let json = try body.jsonDecode() as? [String:Any]
             let channelid = json?["channelid"] as? String ?? ""
-            
-            if channelid != "" {
+            let userid = json?["userid"] as? String ?? ""
+
+            if channelid != "" && userid != "" {
                 //Session func
-                let returnData = Session(channelId: channelid)
+                let returnData = Session(channelid: channelid, userid: userid)
                 let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
                 try? _ = response.setBody(json: jayson)
                     .setHeader(.contentType, value:"application/json")
                     .completed()
             } else {
-                let jayson = ["data": "", "message": "Missing a channelid, or key. Try SiriusXM", "success": false] as [String : Any]
+                let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
                 try? _ = response.setBody(json: jayson)
                     .setHeader(.contentType, value:"application/json")
                     .completed()
@@ -101,11 +102,14 @@ internal func channelsRoute(request: HTTPRequest, _ response: HTTPResponse) {
         
         do {
             let json = try body.jsonDecode() as? [String:Any]
-            let channelType = json?["channelType"] as? String ?? ""
+            let channeltype = json?["channeltype"] as? String ?? ""
+            let userid = json?["userid"] as? String ?? ""
+
         
-            if channelType != "" {
+            if channeltype != "" && userid != "" {
                 //Session func
-                let returnData = Channels(channelType: channelType)
+                let returnData = Channels(channeltype: channeltype, userid: userid)
+                
                 let jayson = ["data": returnData.data, "message": "coolbeans", "success": true] as [String : Any]
                 try? _ = response.setBody(json: jayson)
                 response.setHeader(.contentType, value:"application/json")
@@ -137,21 +141,22 @@ internal func channelsRoute(request: HTTPRequest, _ response: HTTPResponse) {
 //playlist
 internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let playlistRequest = request.urlVariables[routeTrailingWildcardKey]
+    let userid = request.urlVariables["userid"]
     let filename = String(playlistRequest!.dropFirst())
     let channelArray = filename.split(separator: ".")
     let channel = String(channelArray[0])
     
-    if channel.count > 0 {
-        let ch = Global.variable.channels[channel] as? NSDictionary
+    if channel.count > 0 && userid != nil && playlistRequest != nil {
         
-        if ch != nil {
-            let channelid = ch!["channelId"] as? String
-            Global.variable.user[Global.variable.userid]!.channel = channelid!
+        
+        if let ch = Global.variable.user[(userid)!]?.channels[channel]! as? NSDictionary {
+            let channelid = ch["channelId"] as? String
+            Global.variable.user[userid!]!.channel = channelid!
             
-            _ = Session(channelId: channelid!)
+            _ = Session(channelid: channelid!, userid: userid!)
             
-            if channelid != nil {
-                let playlist = Playlist(channelId: channelid!)
+            if channelid != nil && userid != nil {
+                let playlist = Playlist(channelid: channelid!, userid: userid!)
                 response.setBody(string: playlist)
                     .setHeader(.contentType, value:"application/x-mpegURL")
                     .completed()
@@ -172,13 +177,13 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
     }
 }
 
-//key/1
 internal func audioRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let audio = request.urlVariables[routeTrailingWildcardKey]
-    
-    if audio != nil {
+    let userid = request.urlVariables["userid"]
+
+    if audio != nil && userid != nil {
         let filename = String(audio!.dropFirst())
-        let audio = Audio(data: filename, channelId: Global.variable.user[Global.variable.userid]!.channel) as NSData
+        let audio = Audio(data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid!) as NSData
         let bytes = [UInt8](audio as Data)
         response.setBody(bytes: bytes)
             .setHeader(.contentType, value:"audio/aac")

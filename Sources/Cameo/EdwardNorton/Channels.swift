@@ -2,7 +2,7 @@ import Foundation
 
 typealias ChannelsTuple = (success: Bool, message: String, data: Dictionary<String, Any>)
 
-internal func Channels(channelType: String) -> ChannelsTuple {
+internal func Channels(channeltype: String, userid: String) -> ChannelsTuple {
     var success : Bool? = false
     var message : String? = "Something's not right."
     
@@ -56,20 +56,20 @@ internal func Channels(channelType: String) -> ChannelsTuple {
                 }
                 
                 let cl = [ "channelId": channelId, "channelNumber": channelNumber, "streamingName": streamingName, "name": name, "mediumImage": mediumImage, "smallImage": smallImage, "tinyImage": tinyImage, "channelGuid": channelGuid ]
-                if channelType == "id" {
+                if channeltype == "id" {
                     ChannelDict![channelId] = cl
-                } else if channelType == "name" {
+                } else if channeltype == "name" {
                     ChannelDict![name] = cl
-                } else if channelType == "number" {
+                } else if channeltype == "number" {
                     ChannelDict![channelNumber] = cl
                 } else {
                     ChannelDict![channelId] = cl
                 }
             }
             
-            Global.variable.channels = ChannelDict!
+            Global.variable.user[userid]?.channels = ChannelDict!
             
-            if Global.variable.channels.count > 1 {
+            if (Global.variable.user[userid]?.channels.count)! > 1 {
                 success = true
                 message = "Read the channels in."
                 return (success: success!, message: message!, data: ChannelDict!)
