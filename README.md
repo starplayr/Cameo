@@ -37,7 +37,7 @@ swift run
 
 ## Step 1 Sirius XM Login (Account Required)
 ```swift
-curl -d '{"user":"emaill@addr.com", "pass":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/login
+curl -d '{"user":"email@addr.com", "pass":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/login
 
 returns data string which becomes the userid in Session,Channels, and Playlist calls.
 we will be adding a epoche number soon to this userid. It will be a tad long, but its management will all be handled through StarPlayrX or equvilant. We may add in the option to assign your own UserID at login to simplify the process. We chose not to use the user's email address for the userid for security purposes.  
