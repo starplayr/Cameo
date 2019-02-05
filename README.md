@@ -37,19 +37,19 @@ swift run
 
 ## Step 1 Sirius XM Login (Account Required)
 ```swift
-curl -d '{"user":"email@addr.com", "pass":"xxxxxx"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/login
+curl -d '{"user":"email@addr.com", "pass":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/login
 
 //userid is returned in the data string. It is used on session,channels,and playlist calls. It helps if you are testing more than one SiriusXM account.  
 ```
 
 ## Step 2 Session (Establishes the Session between SiriusXM and Cameo)
 ```swift
-curl -d '{"channelid":"2", "userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/session
+curl -d '{"channelid":"2", "userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/session
 ```
 
-## Channels (Pulls channels by number)
+## Channels (Pulls channels by number. If using MPlayer in the commmand line simply ignore its output.)
 ```swift
-curl -d '{"channeltype":"number","userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
+curl -d '{"channeltype":"number","userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
 ```
 
 ## Playlist by channel number and play through mplayer
