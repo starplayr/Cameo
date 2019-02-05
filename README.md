@@ -50,7 +50,7 @@ curl -d '{"channelid":"2", "userid":"xxxxxx"}' -H "Content-type: application/jso
 
 ## Channels (Pulls channels by number)
 ```swift
-curl -d '{"channelType":"number","userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
+curl -d '{"channeltype":"number","userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
 ```
 
 ## Playlist by channel number and play through mplayer
