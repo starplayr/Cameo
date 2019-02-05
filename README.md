@@ -43,7 +43,7 @@ returns data string which becomes the userid in Session,Channels, and Playlist c
 we will be adding a epoche number soon to this userid. It will be a tad long, but its management will all be handled through StarPlayrX or equvilant. We may add in the option to assign your own UserID at login to simplify the process. We chose not to use the user's email address for the userid for security purposes.  
 ```
 
-## Step 2 Session Ping
+## Step 2 Session (Establishes the Session between SiriusXM and Cameo)
 ```swift
 curl -d '{"channelid":"", "userid":"xxxxxx"}' -H "Content-type: application/json" -X POST http://localhost:1111/api/v2/session
 ```
