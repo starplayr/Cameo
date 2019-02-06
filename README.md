@@ -45,7 +45,8 @@ curl -d '{"user":"email@addr.com", "pass":"x"}' -H "Content-type: application/js
 curl -d '{"channelid":"siriushits1", "userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/session
 ```
 
-## Step 3 Channels (Pulls channels by number. If using MPlayer in the commmand line simply ignore its output.)
+## Step 3 Channels (Pulls channels by number)
+If using MPlayer in the commmand line simply ignore its output, but it needs to be run. We will add an argument or separate call to allow a more user readible output.
 ```swift
 curl -d '{"channeltype":"number","userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
 ```
