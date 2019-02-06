@@ -19,7 +19,6 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
 internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let data = PDT()
-    print(data)
     let jayson = ["data": "mockdata", "message": "mockreturn", "success": true] as [String : Any]
     try? _ = response.setBody(json: jayson)
     response.setHeader(.contentType, value:"application/json")
@@ -185,7 +184,6 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
                 //then trail for remaining to speed up time
                 if Global.variable.streaming {
                     let xxx = Session(channelid: channelid!, userid: userid!)
-                    print(xxx)
                 }
                 
             } else {
