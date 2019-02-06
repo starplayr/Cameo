@@ -2,14 +2,19 @@ import PerfectHTTP
 import PerfectHTTPServer
 import Foundation
 
-//key/1
+//key/1/{userid}
 internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
-    let key = "0Nsco7MAgxowGvkUT8aYag==" //attach to variable
-    let data = Data(base64Encoded: key)
-    let bytes = [UInt8](data!)
-    response.setBody(bytes: bytes)
+    var key : String? = "" //default to empty string
+    let userid = request.urlVariables["userid"]
+    
+    if  userid != nil && Global.variable.user[userid!]!.key.count > 1 {
+        key = Global.variable.user[userid!]!.key
+    }
+    
+    response.setBody(bytes: [UInt8](Data(base64Encoded: key!)!))
         .setHeader(.contentType, value:"application/octet-stream")
         .completed()
+    key = nil
 }
 
 //login
@@ -49,9 +54,6 @@ internal func loginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
         response.setHeader(.contentType, value:"application/json")
         response.completed()
     }
-    
-    response.setHeader(.contentType, value:"application/json")
-    .completed()
 }
 
 //session
@@ -90,9 +92,6 @@ internal func sessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
             .setHeader(.contentType, value:"application/json")
             .completed()
     }
-    
-    response.setHeader(.contentType, value:"application/json")
-    .completed()
 }
 
 //channels
@@ -131,10 +130,8 @@ internal func channelsRoute(request: HTTPRequest, _ response: HTTPResponse) {
         let jayson = ["data": "", "message": "Session may be invalid, try logging in first.", "success": false] as [String : Any]
         try? _ = response.setBody(json: jayson)
         response.setHeader(.contentType, value:"application/json")
-            .completed()
+        .completed()
     }
-    response.setHeader(.contentType, value:"application/json")
-    .completed()
 }
 
 
@@ -144,12 +141,17 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let userid = request.urlVariables["userid"]
     let filename = String(playlistRequest!.dropFirst())
     let channelArray = filename.split(separator: ".")
-    let channel = String(channelArray[0])
     
-    if channel.count > 0 && userid != nil && playlistRequest != nil {
+    var channel : String? = ""
+    
+    if channelArray.count > 1 {
+        channel = String(channelArray[0])
+    }
+    
+    if channel!.count > 0 && userid != nil && playlistRequest != nil {
         
         
-        if let ch = Global.variable.user[(userid)!]?.channels[channel]! as? NSDictionary {
+        if let ch = Global.variable.user[(userid)!]?.channels[channel!]! as? NSDictionary {
             let channelid = ch["channelId"] as? String
             Global.variable.user[userid!]!.channel = channelid!
             
@@ -161,18 +163,18 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
                     .setHeader(.contentType, value:"application/x-mpegURL")
                     .completed()
             } else {
-                response.setBody(string: "channel is missing.")
-                    .setHeader(.contentType, value:"application/utf8")
+                response.setBody(string: "Channel is missing.\n\r")
+                    .setHeader(.contentType, value:"text/plain")
                     .completed()
             }
         } else {
-            response.setBody(string: "Channel does not exist.")
-                .setHeader(.contentType, value:"application/utf8")
+            response.setBody(string: "The channel does not exist.\n\r")
+                .setHeader(.contentType, value:"text/plain")
                 .completed()
         }
     } else {
-        response.setBody(string: "Incorrect Parameter.")
-        .setHeader(.contentType, value:"application/utf8")
+        response.setBody(string: "Incorrect Parameter.\n\r")
+        .setHeader(.contentType, value:"text/plain")
         .completed()
     }
 }
@@ -183,16 +185,11 @@ internal func audioRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
     if audio != nil && userid != nil {
         let filename = String(audio!.dropFirst())
-        let audio = Audio(data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid!) as NSData
-        let bytes = [UInt8](audio as Data)
-        response.setBody(bytes: bytes)
+        response.setBody( bytes: [UInt8]( Audio( data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid! ) ))
             .setHeader(.contentType, value:"audio/aac")
             .completed()
     } else {
-        response.setBody(string: "")
-            .setHeader(.contentType, value:"application/text")
-            .completed()
-        
+        response.completed()
     }
     
 }

@@ -39,7 +39,7 @@ func Playlist(channelid: String, userid: String ) -> String {
     if playlist != nil {
         
         //fix key path
-        playlist = playlist!.replacingOccurrences(of: "key/1", with: "/key/1")
+        playlist = playlist!.replacingOccurrences(of: "key/1", with: "/key/1/" + userid)
         
         //add audio and userid prefix (used for internal multi user or multi service setup)
         playlist = playlist!.replacingOccurrences(of: channelid, with: "/audio/" + userid + "/" + channelid)

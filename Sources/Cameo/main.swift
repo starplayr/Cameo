@@ -15,7 +15,7 @@ private func routes() -> Routes {
     var routes = Routes()
 
     // /key/1
-    routes.add(method: .get, uri:"/key/1",handler:keyOneRoute)
+    routes.add(method: .get, uri:"/key/1/{userid}",handler:keyOneRoute)
     
     // /api/v2/login
     routes.add(method: .post, uri:"/api/v2/login",handler:loginRoute)
