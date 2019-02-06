@@ -162,20 +162,39 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
         
         if let ch = Global.variable.user[(userid)!]?.channels[channel!]! as? NSDictionary {
             let channelid = ch["channelId"] as? String
+            
+            if channelid != Global.variable.user[userid!]!.channel {
+                Global.variable.streaming = false;
+            } else {
+                Global.variable.streaming = true;
+            }
+            
             Global.variable.user[userid!]!.channel = channelid!
             
-            _ = Session(channelid: channelid!, userid: userid!)
+            //run to start
+            if !Global.variable.streaming {
+                _ = Session(channelid: channelid!, userid: userid!)
+            }
             
             if channelid != nil && userid != nil {
                 let playlist = Playlist(channelid: channelid!, userid: userid!)
                 response.setBody(string: playlist)
                     .setHeader(.contentType, value:"application/x-mpegURL")
                     .completed()
+
+                //then trail for remaining to speed up time
+                if Global.variable.streaming {
+                    let xxx = Session(channelid: channelid!, userid: userid!)
+                    print(xxx)
+                }
+                
             } else {
                 response.setBody(string: "Channel is missing.\n\r")
                     .setHeader(.contentType, value:"text/plain")
                     .completed()
             }
+            
+           
         } else {
             response.setBody(string: "The channel does not exist.\n\r")
                 .setHeader(.contentType, value:"text/plain")

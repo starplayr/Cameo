@@ -24,12 +24,18 @@ func PDT()  {
     //channelid
     let channelid = i.value( forKeyPath: "channelId" ) as! String
     let markerLists = i.value( forKeyPath: "markerLists" ) as! NSArray
-    let cutlayer = print(markerLists[0])
-    let episodelayer = print(markerLists[1])
-    
+    let cutlayer = markerLists[0]
+    let episodelayer = markerLists[1]
+    print("-----------")
     print(cutlayer)
+    print("-----------")
+
     print(episodelayer)
+    print("-----------")
+
     print(channelid)
+    print("-----------")
+
    // let chunk = c.value( forKeyPath: "chunks.chunks") as! NSArray
   //  let d = chunk[0] as! NSDictionary
     

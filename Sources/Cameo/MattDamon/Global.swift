@@ -8,6 +8,9 @@ import Foundation
 
 class Global {
     
+    //streaming flag
+    internal var streaming: Bool = false
+    
     //local
     internal let ipaddress: String = "127.0.0.1"
     internal let port: Int = 1111
