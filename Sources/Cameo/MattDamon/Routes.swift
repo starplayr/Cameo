@@ -11,18 +11,14 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
         key = Global.variable.user[userid!]!.key
     }
     
-    response.setBody(bytes: [UInt8](Data(base64Encoded: key!)!))
-        .setHeader(.contentType, value:"application/octet-stream")
-        .completed()
+    response.setBody(bytes: [UInt8](Data(base64Encoded: key!)!)).setHeader(.contentType, value:"application/octet-stream").completed()
     key = nil
 }
 
 internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let data = PDT()
     let jayson = ["data": "mockdata", "message": "mockreturn", "success": true] as [String : Any]
-    try? _ = response.setBody(json: jayson)
-    response.setHeader(.contentType, value:"application/json")
-    response.completed()
+    try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
 }
 
 //login
@@ -39,28 +35,20 @@ internal func loginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
                 //Login func
                 let returnData = Login(user: user, pass: pass)
                 let jayson = ["data": returnData.data, "message": returnData.message, "success": returnData.success] as [String : Any]
-                try? _ = response.setBody(json: jayson)
-                response.setHeader(.contentType, value:"application/json")
-                response.completed()
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             } else {
                 let jayson = ["data": "", "message": "Missing username or password / 'user' or 'pass' key.", "success": false] as [String : Any]
-                try? _ = response.setBody(json: jayson)
-                response.setHeader(.contentType, value:"application/json")
-                response.completed()
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             }
             
         } catch {
             let jayson = ["data": "", "message": "Syntax Error or invalid JSON", "success": false] as [String : Any]
-            try? _ = response.setBody(json: jayson)
-            response.setHeader(.contentType, value:"application/json")
-            response.completed()
+            try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
         }
         
     } else {
         let jayson = ["data": "", "message": "To error is human, login failed.", "success": false] as [String : Any]
-        try? _ = response.setBody(json: jayson)
-        response.setHeader(.contentType, value:"application/json")
-        response.completed()
+        try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
     }
 }
 
@@ -78,27 +66,19 @@ internal func sessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
                 //Session func
                 let returnData = Session(channelid: channelid, userid: userid)
                 let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
-                try? _ = response.setBody(json: jayson)
-                    .setHeader(.contentType, value:"application/json")
-                    .completed()
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             } else {
                 let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
-                try? _ = response.setBody(json: jayson)
-                    .setHeader(.contentType, value:"application/json")
-                    .completed()
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             }
         } catch {
             let jayson = ["data": "", "message": "Syntax Error or invalid JSON.", "success": false] as [String : Any]
-            try? _ = response.setBody(json: jayson)
-                .setHeader(.contentType, value:"application/json")
-                .completed()
+            try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
         }
         
     } else {
         let jayson = ["data": "", "message": "Session may be invalid, try logging in first.", "success": false] as [String : Any]
-        try? _ = response.setBody(json: jayson)
-            .setHeader(.contentType, value:"application/json")
-            .completed()
+        try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
     }
 }
 
@@ -177,31 +157,23 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
             
             if channelid != nil && userid != nil {
                 let playlist = Playlist(channelid: channelid!, userid: userid!)
-                response.setBody(string: playlist)
-                    .setHeader(.contentType, value:"application/x-mpegURL")
-                    .completed()
+                response.setBody(string: playlist).setHeader(.contentType, value:"application/x-mpegURL").completed()
 
                 //then trail for remaining to speed up time
                 if Global.variable.streaming {
-                    let xxx = Session(channelid: channelid!, userid: userid!)
+                   _ = Session(channelid: channelid!, userid: userid!)
                 }
                 
             } else {
-                response.setBody(string: "Channel is missing.\n\r")
-                    .setHeader(.contentType, value:"text/plain")
-                    .completed()
+                response.setBody(string: "Channel is missing.\n\r").setHeader(.contentType, value:"text/plain").completed()
             }
             
            
         } else {
-            response.setBody(string: "The channel does not exist.\n\r")
-                .setHeader(.contentType, value:"text/plain")
-                .completed()
+            response.setBody(string: "The channel does not exist.\n\r").setHeader(.contentType, value:"text/plain").completed()
         }
     } else {
-        response.setBody(string: "Incorrect Parameter.\n\r")
-        .setHeader(.contentType, value:"text/plain")
-        .completed()
+        response.setBody(string: "Incorrect Parameter.\n\r").setHeader(.contentType, value:"text/plain").completed()
     }
 }
 
@@ -211,8 +183,7 @@ internal func audioRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
     if audio != nil && userid != nil {
         let filename = String(audio!.dropFirst())
-        response.setBody( bytes: [UInt8]( Audio( data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid! ) ))
-            .setHeader(.contentType, value:"audio/aac")
+        response.setBody( bytes: [UInt8]( Audio( data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid! ) )).setHeader(.contentType, value:"audio/aac")
             .completed()
     } else {
         response.completed()
