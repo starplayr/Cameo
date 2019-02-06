@@ -144,6 +144,7 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
             
             if channelid != Global.variable.user[userid!]!.channel {
                 Global.variable.streaming = false;
+                _ = Session(channelid: channelid!, userid: userid!)
             } else {
                 Global.variable.streaming = true;
             }
@@ -152,7 +153,7 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
             
             //run to start
             if !Global.variable.streaming {
-                _ = Session(channelid: channelid!, userid: userid!)
+               _ = Session(channelid: channelid!, userid: userid!)
             }
             
             if channelid != nil && userid != nil {
@@ -161,7 +162,7 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
                 //then trail for remaining to speed up time
                 if Global.variable.streaming {
-                   _ = Session(channelid: channelid!, userid: userid!)
+                  // _ = Session(channelid: channelid!, userid: userid!)
                 }
                 
             } else {
