@@ -14,7 +14,7 @@ private func routes() -> Routes {
     
     var routes = Routes()
 
-    // /key/1
+    // /key/1/{userid}
     routes.add(method: .get, uri:"/key/1/{userid}",handler:keyOneRoute)
     
     // /api/v2/login
@@ -26,11 +26,15 @@ private func routes() -> Routes {
     // /api/v2/channels
     routes.add(method: .post, uri:"/api/v2/channels",handler:channelsRoute)
     
-    // /playlist/2.m3u8
+    // /playlist/{userid}/2.m3u8
     routes.add(method: .get, uri:"/playlist/{userid}/**",handler:playlistRoute)
     
-    // /audio/2.m3u8
+    // /audio/{userid}/2.m3u8
     routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
+    
+    // /PDT (artist and song data)
+    routes.add(method: .get, uri:"/pdt",handler:PDTRoute)
+
     
     // Check the console to see the logical structure of what was installed.
   //  print("\(routes.navigator.description)")

@@ -17,6 +17,15 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
     key = nil
 }
 
+internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    let data = PDT()
+    print(data)
+    let jayson = ["data": "mockdata", "message": "mockreturn", "success": true] as [String : Any]
+    try? _ = response.setBody(json: jayson)
+    response.setHeader(.contentType, value:"application/json")
+    response.completed()
+}
+
 //login
 internal func loginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
     
