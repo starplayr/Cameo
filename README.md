@@ -22,9 +22,7 @@ More Convience methods will be added soon.
 
 ## Perfect Server
 ```swift
-ipaddress and port is in Global.swift
-default to 127.0.0.1 for localhost
-use your computer's IP if you plan on testing external devices on your LAN like iOS.
+ipaddress and port is located in Global.swift
 ```
 
 ## Command line instructions
@@ -44,18 +42,20 @@ curl -d '{"user":"email@addr.com", "pass":"x"}' -H "Content-type: application/js
 
 ## Step 2 Session (Establishes the Session between SiriusXM and Cameo)
 ```swift
-curl -d '{"channelid":"2", "userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/session
+curl -d '{"channelid":"siriushits1", "userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/session
 ```
 
-## Channels (Pulls channels by number. If using MPlayer in the commmand line simply ignore its output.)
+## Step 3 Channels (Pulls channels by number. If using MPlayer in the commmand line simply ignore its output.)
 ```swift
 curl -d '{"channeltype":"number","userid":"x"}' -H "Content-type: application/json" -X POST http://127.0.0.1:1111/api/v2/channels
 ```
 
-## Playlist by channel number and play through mplayer
+## Step 4 Playlist by channel number and play through mplayer
 ```swift
 mplayer http://localhost:1111/playlist/{userid}/2.m3u8 -cache 32
 ```
+
+Most of these steps are automated in StarPlayrX (in private development). Convience methods for command line curl users is planned.
 
 The userid was addded to support multi users from the backend. Cameo's goal is to support multiple Radio and Video platforms.
 Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes. This API is designed to work with StarPlayrX. It will be revised for more common usage along with a Web User Interface.
