@@ -52,7 +52,6 @@ curl -d '{"channeltype":"number","userid":"x"}' -H "Content-type: application/js
 
 ## Step 4 Playlist by channel number and play through mplayer
 ```swift
-mplayer http://localhost:1111/playlist/{userid}/2.m3u8 -cache 32
+mplayer http://localhost:1111/playlist/{userid}/2.m3u8 -nocache
 ```
-The userid was addded to support multi users from the backend. Cameo's goal is to support multiple Radio and Video platforms.
-Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. It does not support iTunes. This API is designed to work with StarPlayrX, our flag ship app in early development. Cameo will be revised for more common usage along with a Web User Interface.
+The userid was addded to support multi users from the backend. Cameo's goal is to support multiple Radio and Video platforms and multiple users on your LAN. Our m3u8 playlists work with mplayer, VLC, Apple's AVKit's AVPlayer, Apple's Quicktime Player. iTunes is not supported. This API works with StarPlayrX, our flag ship radio player under development. Cameo will be revised for more common usage along with a Web User Interface.
