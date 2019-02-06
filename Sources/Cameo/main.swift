@@ -33,7 +33,7 @@ private func routes() -> Routes {
     routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
     
     // Check the console to see the logical structure of what was installed.
-    print("\(routes.navigator.description)")
+  //  print("\(routes.navigator.description)")
     return routes
     
 }
