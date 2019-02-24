@@ -10,12 +10,22 @@ server.serverPort = UInt16(Global.variable.port)
 
 
 
-private func routes() -> Routes {
+public func routes() -> Routes {
     
+    //read from MemBase
+    /*
+     if let readMemBase = UserDefaults.standard.data(forKey:  "MemBase") {
+     let readData = NSKeyedUnarchiver.unarchiveObject(with: readMemBase)
+     Global.variable.MemBase = readData as! [String : Any]
+     }
+     */
     var routes = Routes()
-
+    
     // /key/1/{userid}
     routes.add(method: .get, uri:"/key/1/{userid}",handler:keyOneRoute)
+    
+    // /key/4/{userid}
+    routes.add(method: .get, uri:"/key/4/{userid}",handler:keyFourRoute)
     
     // /api/v2/login
     routes.add(method: .post, uri:"/api/v2/login",handler:loginRoute)
@@ -33,14 +43,14 @@ private func routes() -> Routes {
     routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
     
     // /PDT (artist and song data)
-    routes.add(method: .get, uri:"/pdt",handler:PDTRoute)
-
+    routes.add(method: .get, uri:"/pdt/{userid}",handler:PDTRoute)
     
     // Check the console to see the logical structure of what was installed.
-  //  print("\(routes.navigator.description)")
+    //  print("\(routes.navigator.description)")
     return routes
     
 }
+
 
 do {
     server.addRoutes( routes() )

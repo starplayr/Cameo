@@ -44,7 +44,12 @@ func Playlist(channelid: String, userid: String ) -> String {
         //add audio and userid prefix (used for internal multi user or multi service setup)
         playlist = playlist!.replacingOccurrences(of: channelid, with: "/audio/" + userid + "/" + channelid)
         
+        //is insync with PDT
+        playlist = playlist!.replacingOccurrences(of: "#EXTINF:10,", with: "#EXTINF:1," + userid)
+
+        
         source = nil
+        
         return playlist!
     }
     

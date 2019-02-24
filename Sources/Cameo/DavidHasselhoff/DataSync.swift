@@ -35,8 +35,9 @@ internal func DataSync(endpoint: String, method: String ) -> Data {
         
         
         if status == 200  {
-            syncData = NSData(data: data!) as Data
-            
+            if data != nil {
+                syncData = NSData(data: data!) as Data
+            }
         }
         
         //MARK - for Sync

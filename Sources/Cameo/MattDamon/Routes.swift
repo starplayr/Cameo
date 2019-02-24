@@ -2,7 +2,8 @@ import PerfectHTTP
 import PerfectHTTPServer
 import Foundation
 
-//key/1/{userid}
+
+//Encryption Key for main streams Sirius XM
 internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
     var key : String? = "" //default to empty string
     let userid = request.urlVariables["userid"]
@@ -15,9 +16,21 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
     key = nil
 }
 
+//Encpytion Key for Xtra Channels Sirius XM
+internal func keyFourRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    let key = [177, 245, 101, 84, 49, 183, 21, 122, 115, 13, 24, 211, 89, 255, 106, 209] as [UInt8]
+    let userid = request.urlVariables["userid"]
+    
+    if userid != nil {
+        response.setBody(bytes: [UInt8](key)).setHeader(.contentType, value:"application/octet-stream").completed()
+    }
+    
+}
+
 internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
-    let data = PDT()
-    let jayson = ["data": "mockdata", "message": "mockreturn", "success": true] as [String : Any]
+    let userid = request.urlVariables["userid"]  
+    let artistSongData = PDT(userid:userid!)
+    let jayson = ["data": artistSongData, "message": "0000", "success": true] as [String : Any]
     try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
 }
 
@@ -136,11 +149,11 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
         channel = String(channelArray[0])
     }
     
-    if channel!.count > 0 && userid != nil && playlistRequest != nil {
+    if channel != ""  && userid != nil && playlistRequest != nil && Global.variable.user[userid!]!.channels.count > 1 {
+        let ch = Global.variable.user[userid!]!.channels[channel!] as? NSDictionary
         
-        
-        if let ch = Global.variable.user[(userid)!]?.channels[channel!]! as? NSDictionary {
-            let channelid = ch["channelId"] as? String
+        if ch != nil {
+            let channelid = ch!["channelId"] as? String
             Global.variable.user[userid!]!.channel = channelid!
         
             if channelid != nil && userid != nil {

@@ -1,6 +1,6 @@
 import Foundation
 
-func Config()  {
+public func Config()  {
    let endpoint = Global.variable.http + Global.variable.root +  "/get/configuration?result-template=html5&app-region=US"
     
    let config = GetSync(endpoint: endpoint, method: "config")
@@ -23,8 +23,7 @@ func Config()  {
             let streamRoots = (streamUrls[0]) as! NSArray
             for j in streamRoots {
                 let b = j as! NSDictionary
-                
-                if b["name"] != nil && b["url"] as! String != "TBD" {
+                if b["name"] != nil && b["url"] != nil  {
                     let streamName = b["name"] as! String
                     let streamUrl = b["url"]  as! String
                     Global.variable.hls_sources[streamName] = streamUrl
