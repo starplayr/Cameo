@@ -13,7 +13,6 @@ internal func Channels(channeltype: String, userid: String) -> ChannelsTuple {
     
     let result = PostSync(request: request, endpoint: endpoint, method: method )
     
-    print(result)
     if (result.response.statusCode) == 403 {
         success = false
         message = "Too many incorrect logins, Sirius XM has blocked your IP for 24 hours."

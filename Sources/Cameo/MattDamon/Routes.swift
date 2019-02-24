@@ -34,6 +34,48 @@ internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
     try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
 }
 
+
+//autoBox (login, session, channels) with just userid in the
+internal func autoBox(request: HTTPRequest, _ response: HTTPResponse)  {
+    
+    if let body = request.postBodyString {
+        
+        do {
+            let json = try body.jsonDecode() as? [String:Any]
+            let user = json?["user"] as? String ?? ""
+            let pass = json?["pass"] as? String ?? ""
+            
+            if user != "" && pass != "" {
+                //Login func
+                let returnData = Login(user: user, pass: pass)
+                let jayson = ["data": returnData.data, "message": returnData.message, "success": returnData.success] as [String : Any]
+                let channelid = "siriushits1"
+                let channeltype = "number"
+                let userid = returnData.data
+                
+                //
+                _ = Session(channelid: channelid, userid: userid)
+                
+                _ = Channels(channeltype: channeltype, userid: userid)
+
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            } else {
+                let jayson = ["data": "", "message": "Missing username or password / 'user' or 'pass' key.", "success": false] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            }
+            
+        } catch {
+            let jayson = ["data": "", "message": "Syntax Error or invalid JSON", "success": false] as [String : Any]
+            try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+        }
+        
+    } else {
+        let jayson = ["data": "", "message": "To error is human, login failed.", "success": false] as [String : Any]
+        try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+    }
+}
+
+
 //login
 internal func loginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
     

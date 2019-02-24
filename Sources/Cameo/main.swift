@@ -27,6 +27,9 @@ public func routes() -> Routes {
     // /key/4/{userid}
     routes.add(method: .get, uri:"/key/4/{userid}",handler:keyFourRoute)
     
+    // /autobox (login, session, channels)
+    routes.add(method: .post, uri:"/api/v2/autobox",handler:autoBox)
+    
     // /api/v2/login
     routes.add(method: .post, uri:"/api/v2/login",handler:loginRoute)
     
