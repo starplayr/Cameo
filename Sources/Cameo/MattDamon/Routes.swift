@@ -57,6 +57,8 @@ internal func autoBox(request: HTTPRequest, _ response: HTTPResponse)  {
                 _ = Session(channelid: channelid, userid: userid)
                 
                 _ = Channels(channeltype: channeltype, userid: userid)
+                
+                _ = XtraSession(channelid: channelid, userid: userid)
 
                 try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             } else {

@@ -5,6 +5,7 @@ public func Config()  {
     
    let config = GetSync(endpoint: endpoint, method: "config")
     
+    //print(config)
     /* get patterns and encrpytion keys */
     let s = config.value( forKeyPath: "ModuleListResponse.moduleList.modules" )!
     let p = s as? NSArray
