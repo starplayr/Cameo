@@ -13,12 +13,15 @@ public class Global {
     
     //local
     public let ipaddress: String = "127.0.0.1"
-    public var port: Int = 2222
+    public var port: UInt16 = 9999
     //source
-    public var usePrime: Bool = false
+    public var usePrime: Bool = true
     public let http: String = "https://"
     public let root: String = "player.siriusxm.com/rest/v2/experience/modules"
     
+    public var connectionType = "wifi"
+    public var connectionInt = 1
+
     public var hls_sources = Dictionary<String, String>()
     public var MemBase = [ String : Any ]()
     

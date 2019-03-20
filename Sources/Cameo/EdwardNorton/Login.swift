@@ -22,6 +22,7 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
     if (result.response.statusCode) == 403 {
         success = false
         message = "Too many incorrect logins, Sirius XM has blocked your IP for 24 hours."
+        return (success: success!, message: message!, data: "")
     }
     
     if result.success {
@@ -33,11 +34,13 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
 
         let code = cm.value(forKeyPath: "code")! as! Int
         let msg = cm.value(forKeyPath: "message")! as! String
-        var logindata : Global.LoginData? = (email:"", pass:"", channels: [:], channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" ) as     Global.LoginData
+        var logindata : Global.LoginData? = (email:"", pass:"", channels: [:], channel: "", token: "", loggedin: false, guid: "", gupid: "", consumer: "", key: "", keyurl: "" ) as Global.LoginData
 
         if code == 101 || msg == "Bad username/password" {
             success = false
-            message = msg
+            message = "Bad username or password/"
+            return (success: success!, message: message!, data: "")
+
         } else {
             success = true
             message = "Login successful"
@@ -52,7 +55,8 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
             let fields = result.response.allHeaderFields as? [String : String]
             let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: result.response.url!)
             HTTPCookieStorage.shared.setCookies(cookies, for: result.response.url!, mainDocumentURL: nil)
-                
+   
+            
             if fields?["GupId"] != nil {
                 userid = fields?["GupId"]
                 Global.variable.user[userid!] = logindata
@@ -62,6 +66,13 @@ public func Login(user: String, pass: String) -> (success: Bool, message: String
             if email != nil {
                 Global.variable.user[userid!]?.email = email!
             }
+            
+            /*saveKeys for AutoLogin */
+            UserDefaults.standard.set(user, forKey: "user")
+            UserDefaults.standard.set(pass, forKey: "pass")
+            UserDefaults.standard.set(userid, forKey: "userid")
+            UserDefaults.standard.set(email, forKey: "email")
+
             
             return (success: success!, message: message!, data: Global.variable.user[userid!]!.gupid)
 

@@ -35,7 +35,7 @@ internal func GetSync(endpoint: String, method: String ) -> NSDictionary {
                 //
             }
         } else {
-            // print(response)
+            syncData = ["status":status] as! [String:Int] as NSDictionary
         }
         
         status = nil

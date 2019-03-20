@@ -29,91 +29,92 @@ internal func Session(channelid: String, userid: String) -> String {
     
     let task = URLSession.shared.dataTask(with: urlReq! ) { ( rData, resp, error ) in
     
-        let r = resp as? HTTPURLResponse
-        
-        if r!.statusCode == 200 {
-            
-            do { let result =
-                try JSONSerialization.jsonObject(with: rData!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any]
+        if let r = resp as? HTTPURLResponse {
+            if r.statusCode == 200 {
                 
-                let fields = r!.allHeaderFields as? [String : String]
-                let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: r!.url!)
-                HTTPCookieStorage.shared.setCookies(cookies, for: r!.url!, mainDocumentURL: nil)
-                
-                for cookie in cookies {
+                do { let result =
+                    try JSONSerialization.jsonObject(with: rData!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any]
                     
-                    //This token changes on every pull and expires in about 480 seconds or less
-                    if cookie.name == "SXMAKTOKEN" {
+                    let fields = r.allHeaderFields as? [String : String]
+                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: r.url!)
+                    HTTPCookieStorage.shared.setCookies(cookies, for: r.url!, mainDocumentURL: nil)
+                    
+                    for cookie in cookies {
                         
-                        let t = cookie.value as String
-                        let startIndex = t.index(t.startIndex, offsetBy: 3)
-                        let endIndex = t.index(t.startIndex, offsetBy: 45)
-                        Global.variable.user[userid]?.token = String(t[startIndex...endIndex])
-                        break
-                    }
-                }
-                
-                let dict = result as NSDictionary?
-                
-                
-            
-                /* get patterns and encrpytion keys */
-                let s = dict!.value( forKeyPath: "ModuleListResponse.moduleList.modules" )
-                let p = s as? NSArray
-                let x = p?[0] as! NSDictionary
-                if let customAudioInfos = x.value( forKeyPath: "moduleResponse.liveChannelData.customAudioInfos" ) as? NSArray {
-                    let c = customAudioInfos[0] as? NSDictionary
-                    let chunk = c!.value( forKeyPath: "chunks.chunks") as? NSArray
-                    let d = chunk![0] as! NSDictionary
-                    
-                    Global.variable.user[userid]?.key = (d.value( forKeyPath: "key") as? String)!
-                    Global.variable.user[userid]?.keyurl = (d.value( forKeyPath: "keyUrl") as? String)!
-                    Global.variable.user[userid]?.consumer  = (x.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as? String)!
-                }
-                
-                if let markerLists = x.value( forKeyPath: "moduleResponse.liveChannelData.markerLists" )  as? NSArray {
-                    
-                    let markerDict = markerLists.lastObject as? NSDictionary
-                    let cutLayer = markerDict!.value( forKeyPath: "layer") as? String
-                    
-                    if cutLayer == "cut" {
-                        let markers = markerDict!.value( forKeyPath: "markers") as? NSArray
-                        
-                        //MemBase saves album art with Artist and Song info
-                        for g in markers! {
-                            let gather = g as? NSDictionary
-                            //grabs the album art code number
-                            if let art = gather!.value( forKeyPath: "cut.album.creativeArts" ) as? NSArray {
-                                
-                                let thumbnail = art.firstObject! as? NSDictionary
-                                let thumb = thumbnail?.value( forKeyPath: "url" ) as? String
-                                
-                                let large = art.lastObject! as? NSDictionary
-                                let image = large?.value( forKeyPath: "url" ) as? String
-                                
-                                let cut = gather!.value( forKeyPath: "cut" ) as? NSDictionary
-                                let song = cut!.value( forKeyPath: "title" ) as? String
-                                let artists = cut!.value( forKeyPath: "artists" ) as? NSArray
-                                let a = artists!.firstObject as? NSDictionary
-                                let artist = a!.value( forKeyPath: "name" ) as? String
-                                
-                                let key = MD5(artist! + song!);
-                                Global.variable.MemBase[key!] = ["thumb": thumb!, "image" : image!, "artist": artist!, "song" : song!]
-                            }
+                        //This token changes on every pull and expires in about 480 seconds or less
+                        if cookie.name == "SXMAKTOKEN" {
+                            
+                            let t = cookie.value as String
+                            let startIndex = t.index(t.startIndex, offsetBy: 3)
+                            let endIndex = t.index(t.startIndex, offsetBy: 45)
+                            Global.variable.user[userid]?.token = String(t[startIndex...endIndex])
+                            break
                         }
                     }
                     
+                    let dict = result as NSDictionary?
+                    
+                    
+                    
+                    /* get patterns and encrpytion keys */
+                    let s = dict?.value( forKeyPath: "ModuleListResponse.moduleList.modules" )
+                    let p = s as? NSArray
+                    let x = p?[0] as? NSDictionary
+                    if let customAudioInfos = x!.value( forKeyPath: "moduleResponse.liveChannelData.customAudioInfos" ) as? NSArray {
+                        let c = customAudioInfos[0] as? NSDictionary
+                        let chunk = c!.value( forKeyPath: "chunks.chunks") as? NSArray
+                        let d = chunk![0] as? NSDictionary
+                        
+                        Global.variable.user[userid]?.key = d!.value( forKeyPath: "key") as! String
+                        Global.variable.user[userid]?.keyurl = d!.value( forKeyPath: "keyUrl") as! String
+                        Global.variable.user[userid]?.consumer  = x!.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as! String
+                    }
+                    
+                    if let markerLists = x!.value( forKeyPath: "moduleResponse.liveChannelData.markerLists" )  as? NSArray {
+                        
+                        let markerDict = markerLists.lastObject as? NSDictionary
+                        let cutLayer = markerDict!.value( forKeyPath: "layer") as? String
+                        
+                        if cutLayer == "cut" {
+                            let markers = markerDict!.value( forKeyPath: "markers") as? NSArray
+                            
+                            //MemBase saves album art with Artist and Song info
+                            for g in markers! {
+                                let gather = g as? NSDictionary
+                                //grabs the album art code number
+                                if let art = gather!.value( forKeyPath: "cut.album.creativeArts" ) as? NSArray {
+                                    
+                                    let thumbnail = art.firstObject! as? NSDictionary
+                                    let thumb = thumbnail?.value( forKeyPath: "url" ) as? String
+                                    
+                                    let large = art.lastObject! as? NSDictionary
+                                    let image = large?.value( forKeyPath: "url" ) as? String
+                                    
+                                    let cut = gather!.value( forKeyPath: "cut" ) as? NSDictionary
+                                    let song = cut!.value( forKeyPath: "title" ) as? String
+                                    let artists = cut!.value( forKeyPath: "artists" ) as? NSArray
+                                    let a = artists!.firstObject as? NSDictionary
+                                    let artist = a!.value( forKeyPath: "name" ) as? String
+                                    
+                                    let key = MD5(artist! + song!);
+                                    Global.variable.MemBase[key!] = ["thumb": thumb!, "image" : image!, "artist": artist!, "song" : song!]
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    //moduleResponse.liveChannelData.markerLists
+                    
+                } catch {
+                    //fail on any errors
+                    print(error)
                 }
-                
-                //moduleResponse.liveChannelData.markerLists
-            
-            } catch {
-                //fail on any errors
             }
-        } else {
-            //we always require 200 on the post, anything else is a failure
-            //
+            
         }
+        
+  
         //MARK - for Sync
         semaphore.signal()
     }

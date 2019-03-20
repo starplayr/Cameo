@@ -10,7 +10,29 @@ import Foundation
 //Cached verison of Playlist
 func Playlist(channelid: String, userid: String ) -> String {
     
-    let bitrate = "256k" //this may be an optin in the future
+    var bitrate = "64k"
+    var cache = 18
+    //Get Network Info, so we know what to do with the stream
+    
+    /* This is for iOS only should put it in its own file
+    let network = Reachability.getNetworkType()
+    
+    Global.variable.connectionType = (network.trackingId)
+    Global.variable.connectionInt = (network.networkTypeInt)
+    
+    if ( Global.variable.connectionInt == 1 || Global.variable.connectionInt == 5 ) {
+        bitrate = "256k"
+        cache = 18
+    } else if ( Global.variable.connectionInt == 3 || Global.variable.connectionInt == 4 ) {
+        bitrate = "64k"
+        cache = 15
+    } else {
+        bitrate = "32k"
+        cache = 12
+    }
+    */
+    
+    
     let size = "small"
     let underscore = "_"
     let version = "v3"
@@ -45,12 +67,28 @@ func Playlist(channelid: String, userid: String ) -> String {
         playlist = playlist!.replacingOccurrences(of: channelid, with: "/audio/" + userid + "/" + channelid)
         
         //is insync with PDT
-        //playlist = playlist!.replacingOccurrences(of: "#EXTINF:10,", with: "#EXTINF:13," + userid)
+        playlist = playlist!.replacingOccurrences(of: "#EXTINF:10,", with: "#EXTINF:1," + userid)
 
         
         source = nil
         
-        return playlist!
+      
+        let newString = playlist!.replacingOccurrences(of: "\r", with: "")
+        let newArray  = newString.components(separatedBy: "\n") as Array
+        
+        
+        var newplaylist = ""
+        
+        for i in 0...(newArray.count - 1) {
+            newplaylist = newplaylist + newArray[i] + "\r\n"
+           if i == cache {
+                break
+           }
+        }
+       
+        //print(newplaylist)
+        //print(newplaylist)
+        return newplaylist
     }
     
     source = nil
