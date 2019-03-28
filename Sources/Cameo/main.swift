@@ -41,6 +41,12 @@ public func routes() -> Routes {
     // /api/v2/session
     routes.add(method: .post, uri:"/api/v2/session",handler:sessionRoute)
     
+    // /api/v2/xtrasession
+    routes.add(method: .post, uri:"/api/v2/xtras",handler:xtraSessionRoute)
+    
+    // /api/v2/xtra tune get
+    routes.add(method: .get, uri:"/api/v2/x",handler:xtraTuneRoute)
+    
     // /api/v2/channels
     routes.add(method: .post, uri:"/api/v2/channels",handler:channelsRoute)
     

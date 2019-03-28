@@ -5,10 +5,20 @@
 //  Created by Todd Bruss on 1/20/19.
 //
 
+//carousel
+//URL: https://player.siriusxm.com/rest/v4/experience/carousels?page-name=recents&result-template=everest%7Cweb&cacheBuster=1553640589533
+
+//refresh tracks
+//URL: https://player.siriusxm.com/rest/v4/aic/refresh-tracks?cacheBuster=1553640744078
+
+//tune
+//https://player.siriusxm.com/rest/v4/aic/tune?channelGuid=86d52e32-09bf-a02d-1b6b-077e0aa05200&cacheBuster=1553640887848
+
 import Foundation
 
 internal func XtraSession(channelid: String, userid: String) -> String {
-    
+
+    //resume
     let endpoint = "https://player.siriusxm.com/rest/v2/experience/modules/resume?channelId=86d52e32-09bf-a02d-1b6b-077e0aa05200&contentType=aic"
     
     let request =  ["moduleList": ["modules": [["moduleRequest": ["resultTemplate": "web", "deviceInfo": ["osVersion": "Mac", "platform": "Web", "clientDeviceType": "web", "sxmAppVersion": "3.1802.10011.0", "browser": "Safari", "browserVersion": "11.0.3", "appRegion": "US", "deviceModel": "K2WebClient", "player": "html5", "clientDeviceId": "null"]]]]]] as Dictionary
@@ -77,10 +87,12 @@ internal func XtraSession(channelid: String, userid: String) -> String {
                     }
                 }
                 
-            
+                print(everestToken)
+                
+                
                 let dict = result as NSDictionary?
                 
-                //print(dict)
+                print(dict)
                 
                 /*
  
@@ -126,13 +138,15 @@ internal func XtraSession(channelid: String, userid: String) -> String {
                 let channelImageUrl = channelFirst?.value( forKeyPath: "channelImageUrl" ) as? String
                 let name = channelFirst?.value( forKeyPath: "name" ) as? String
 
-                print(channelGuid,channelImageUrl,name)
-                
-              //  let clientConfig = dict!.value( forKeyPath: "ModuleListResponse.moduleList.modules.clientConfiguration" ) as? NSArray
+                print("channelGuid",channelGuid)
+                print("channelImageUrl", channelImageUrl)
+                print("name",name)
 
+                let clipList = dict?.value( forKeyPath: "ModuleListResponse.moduleList.modules.clipList" ) as? NSArray
+                
+                
                 //  channelLineupId = 400;
              //   clientDeviceId = "f9cd46af-c2e9-4349-aa04-b3e302f5494b";
-                
                 
                 /*
                 let p = s as? NSArray
@@ -199,6 +213,8 @@ internal func XtraSession(channelid: String, userid: String) -> String {
     _ = semaphore.wait(timeout: .distantFuture)
     
     urlReq = nil
+    
+
     
     if  Global.variable.user[userid]?.token != nil {
         

@@ -98,6 +98,65 @@ internal func sessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
     }
 }
 
+//xtra session
+internal func xtraSessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    
+    if let body = request.postBodyString {
+        
+        do {
+            let json = try body.jsonDecode() as? [String:Any]
+            let channelid = json?["channelid"] as? String ?? ""
+            let userid = json?["userid"] as? String ?? ""
+            
+            if channelid != "" && userid != "" {
+                //Session func
+                let returnData = XtraSession(channelid: channelid, userid: userid)
+                let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            } else {
+                let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            }
+        } catch {
+            let jayson = ["data": "", "message": "Syntax Error or invalid JSON.", "success": false] as [String : Any]
+            try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+        }
+        
+    } else {
+        let jayson = ["data": "", "message": "Session may be invalid, try logging in first.", "success": false] as [String : Any]
+        try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+    }
+}
+
+internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    
+    if let body = request.postBodyString {
+        
+        do {
+            let json = try body.jsonDecode() as? [String:Any]
+            let channelid = json?["channelid"] as? String ?? ""
+            let userid = json?["userid"] as? String ?? ""
+            
+            if channelid != "" && userid != "" {
+                //Session func
+                xtraTuneRoute(request: <#T##HTTPRequest#>, <#T##response: HTTPResponse##HTTPResponse#>)
+                let returnData = XtraTune(channelid: channelid, userid: userid)
+                let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            } else {
+                let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+            }
+        } catch {
+            let jayson = ["data": "", "message": "Syntax Error or invalid JSON.", "success": false] as [String : Any]
+            try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+        }
+        
+    } else {
+        let jayson = ["data": "", "message": "Session may be invalid, try logging in first.", "success": false] as [String : Any]
+        try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+    }
+}
 
 internal func autoLoginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
     
