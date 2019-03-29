@@ -139,8 +139,7 @@ internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
             
             if channelid != "" && userid != "" {
                 //Session func
-                xtraTuneRoute(request: <#T##HTTPRequest#>, <#T##response: HTTPResponse##HTTPResponse#>)
-                let returnData = XtraTune(channelid: channelid, userid: userid)
+                let returnData = xtraTune(channelid: channelid, userid: userid)
                 let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
                 try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             } else {
