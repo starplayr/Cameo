@@ -18,12 +18,9 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
 //Encpytion Key for Xtra Channels Sirius XM
 internal func keyFourRoute(request: HTTPRequest, _ response: HTTPResponse) {
-    let key = [177, 245, 101, 84, 49, 183, 21, 122, 115, 13, 24, 211, 89, 255, 106, 209] as [UInt8]
-    let userid = request.urlVariables["userid"]
+    let key = keyData
     
-    if userid != nil {
-        response.setBody(bytes: [UInt8](key)).setHeader(.contentType, value:"application/octet-stream").completed()
-    }
+    response.setBody(bytes: [UInt8](key)).setHeader(.contentType, value:"application/octet-stream").completed()
     
 }
 
@@ -140,8 +137,11 @@ internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
             if channelid != "" && userid != "" {
                 //Session func
                 let returnData = xtraTune(channelid: channelid, userid: userid)
-                let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
-                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
+                
+                response.setBody(string: returnData).setHeader(.contentType, value:"application/x-mpegURL").completed()
+                
+                /*let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
+                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()*/
             } else {
                 let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
                 try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
@@ -283,6 +283,12 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
     }
 }
 
+//xtra playlist2
+internal func xtraPlaylistRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    let playlist = xtraTune(channelid: "", userid: "")
+    response.setBody(string: playlist).setHeader(.contentType, value:"application/x-mpegURL").completed()
+}
+
 //ping
 internal func pingRoute(request: HTTPRequest, _ response: HTTPResponse) {
     response.setBody(string: "pong").setHeader(.contentType, value:"text/plain").completed()
@@ -295,12 +301,17 @@ internal func audioRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
     if audio != nil && userid != nil {
         let filename = String(audio!.dropFirst())
-        response.setBody( bytes: [UInt8]( Audio( data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid! ) )).setHeader(.contentType, value:"audio/aac")
-            .completed()
+        response.setBody( bytes: [UInt8]( Audio( data: filename, channelId: Global.variable.user[userid!]!.channel, userid: userid! ) )).setHeader(.contentType, value:"audio/aac").completed()
     } else {
         response.completed()
     }
     
+}
+
+internal func xtraAudioRoute(request: HTTPRequest, _ response: HTTPResponse) {
+    let clip = request.urlVariables[routeTrailingWildcardKey]
+    print(clip)
+    response.setBody( bytes: [UInt8]( xtraAudio( data: clip! ) ) ).setHeader(.contentType, value:"audio/aac").completed()
 }
 
 

@@ -30,7 +30,7 @@ public func routes() -> Routes {
     routes.add(method: .get, uri:"/key/1/{userid}",handler:keyOneRoute)
     
     // /key/4/{userid}
-    routes.add(method: .get, uri:"/key/4/{userid}",handler:keyFourRoute)
+    routes.add(method: .get, uri:"/key/4",handler:keyFourRoute)
     
     // /api/v2/login
     routes.add(method: .post, uri:"/api/v2/login",handler:loginRoute)
@@ -45,17 +45,21 @@ public func routes() -> Routes {
     routes.add(method: .post, uri:"/api/v2/xtras",handler:xtraSessionRoute)
 
     // /api/v2/xtrasession
-    routes.add(method: .post, uri:"/api/v2/xtrs",handler:xtraTuneRoute)
+    /*routes.add(method: .post, uri:"/api/v2/xtrs",handler:xtraTuneRoute)*/
     
-    
+    routes.add(method: .get, uri:"/xtras/**",handler:xtraPlaylistRoute)
+
     // /api/v2/channels
     routes.add(method: .post, uri:"/api/v2/channels",handler:channelsRoute)
     
     // /playlist/{userid}/2.m3u8
     routes.add(method: .get, uri:"/playlist/{userid}/**",handler:playlistRoute)
     
-    // /audio/{userid}/2.m3u8
+    // /audio/{userid}/**.aac
     routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
+    
+    // /clips/**
+    routes.add(method: .get, uri:"/xtraAudio/**",handler:xtraAudioRoute)
     
     // /PDT (artist and song data)
     routes.add(method: .get, uri:"/pdt/{userid}",handler:PDTRoute)
