@@ -29,26 +29,20 @@ public func routes() -> Routes {
     // /key/1/{userid}
     routes.add(method: .get, uri:"/key/1/{userid}",handler:keyOneRoute)
     
-    // /key/4/{userid}
-    routes.add(method: .get, uri:"/key/4",handler:keyFourRoute)
-    
+
     // /api/v2/login
     routes.add(method: .post, uri:"/api/v2/login",handler:loginRoute)
     
-    // /api/v2/autologin
-    routes.add(method: .post, uri:"/api/v2/autologin",handler:autoLoginRoute)
+
+    
+    // /key/4/{userid}
+    routes.add(method: .get, uri:"/key/4",handler:keyFourRoute)
     
     // /api/v2/session
     routes.add(method: .post, uri:"/api/v2/session",handler:sessionRoute)
     
-    // /api/v2/xtrasession
-    routes.add(method: .post, uri:"/api/v2/xtras",handler:xtraSessionRoute)
 
-    // /api/v2/xtrasession
-    /*routes.add(method: .post, uri:"/api/v2/xtrs",handler:xtraTuneRoute)*/
     
-    routes.add(method: .get, uri:"/xtras/**",handler:xtraPlaylistRoute)
-
     // /api/v2/channels
     routes.add(method: .post, uri:"/api/v2/channels",handler:channelsRoute)
     
@@ -57,9 +51,7 @@ public func routes() -> Routes {
     
     // /audio/{userid}/**.aac
     routes.add(method: .get, uri:"/audio/{userid}/**",handler:audioRoute)
-    
-    // /clips/**
-    routes.add(method: .get, uri:"/xtraAudio/**",handler:xtraAudioRoute)
+
     
     // /PDT (artist and song data)
     routes.add(method: .get, uri:"/pdt/{userid}",handler:PDTRoute)
@@ -69,6 +61,18 @@ public func routes() -> Routes {
     
     // Check the console to see the logical structure of what was installed.
     //  print("\(routes.navigator.description)")
+    
+    // /api/v2/autologin
+    routes.add(method: .post, uri:"/api/v2/autologin",handler:autoLoginRoute)
+    
+    // /api/v2/xtrasession
+    routes.add(method: .post, uri:"/api/v2/xtras",handler:xtraSessionRoute)
+    
+    routes.add(method: .get, uri:"/xtras/**",handler:xtraPlaylistRoute)
+    
+    // /clips/**
+    routes.add(method: .get, uri:"/xtraAudio/**",handler:xtraAudioRoute)
+    
     
     return routes
     

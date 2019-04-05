@@ -19,9 +19,7 @@ internal func keyOneRoute(request: HTTPRequest, _ response: HTTPResponse) {
 //Encpytion Key for Xtra Channels Sirius XM
 internal func keyFourRoute(request: HTTPRequest, _ response: HTTPResponse) {
     let key = keyData
-    
     response.setBody(bytes: [UInt8](key)).setHeader(.contentType, value:"application/octet-stream").completed()
-    
 }
 
 internal func PDTRoute(request: HTTPRequest, _ response: HTTPResponse) {
@@ -125,6 +123,8 @@ internal func xtraSessionRoute(request: HTTPRequest, _ response: HTTPResponse) {
     }
 }
 
+//xtra session
+@available(OSX 10.13, *)
 internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
     
     if let body = request.postBodyString {
@@ -132,18 +132,13 @@ internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
         do {
             let json = try body.jsonDecode() as? [String:Any]
             let channelid = json?["channelid"] as? String ?? ""
-            let userid = json?["userid"] as? String ?? ""
             
-            if channelid != "" && userid != "" {
+            if channelid != "" {
                 //Session func
-                let returnData = xtraTune(channelid: channelid, userid: userid)
-                
-                response.setBody(string: returnData).setHeader(.contentType, value:"application/x-mpegURL").completed()
-                
-                /*let jayson = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
-                try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()*/
+                let returnData = xtraTuneData(channelid: "")
+                response.setBody(bytes: [UInt8](returnData)).setHeader(.contentType, value:"application/octet-stream").completed()
             } else {
-                let jayson = ["data": "", "message": "Missing channelid, userid or key.", "success": false] as [String : Any]
+                let jayson = ["data": "", "message": "Missing channelid.", "success": false] as [String : Any]
                 try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
             }
         } catch {
@@ -156,6 +151,8 @@ internal func xtraTuneRoute(request: HTTPRequest, _ response: HTTPResponse) {
         try? _ = response.setBody(json: jayson).setHeader(.contentType, value:"application/json").completed()
     }
 }
+
+
 
 internal func autoLoginRoute(request: HTTPRequest, _ response: HTTPResponse)  {
     
@@ -285,8 +282,8 @@ internal func playlistRoute(request: HTTPRequest, _ response: HTTPResponse) {
 
 //xtra playlist2
 internal func xtraPlaylistRoute(request: HTTPRequest, _ response: HTTPResponse) {
-    let playlist = xtraTune(channelid: "", userid: "")
-    response.setBody(string: playlist).setHeader(.contentType, value:"application/x-mpegURL").completed()
+   // let playlist = xtraTune(channelid: "", userid: "")
+   // response.setBody(string: playlist).setHeader(.contentType, value:"application/x-mpegURL").completed()
 }
 
 //ping
